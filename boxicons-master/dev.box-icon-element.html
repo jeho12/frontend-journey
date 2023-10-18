@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test Custom Element</title>
+    <link rel="stylesheet" href="./css/animations.css">
+    <style>
+        #prototype {
+            margin-bottom: 5em;
+        }
+        #controls {
+            padding: 1em 0.5em;
+            margin-bottom: 0.5em;
+            border-bottom: 1px solid lightgrey;
+        }
+        .icon {
+            display: inline-block;
+            margin: 1em;
+            padding: 1em;
+            width: 150px;
+            text-align: center;
+        }
+        .icon:hover {
+            transition: box-shadow 0.5s;
+            box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.2);
+        }
+        .icon > div {
+            white-space: nowrap;
+            overflow: hidden;
+            -ms-text-overflow: ellipsis;
+            text-overflow: ellipsis;
+            margin-bottom: 0.5em;
+        }
+    </style>
+</head>
+<body>
+<h1>Development Page - <code>box-icon</code> Custom Element</h1>
+<div id="prototype">
+    <div id="controls">
+        <span>Color</span> <input name="color" type="color">
+        <span>Size</span> <input name="size" type="text" placeholder="xs, sm, md, lg or size">
+        <span>rotate</span>
+        <select name="rotate">
+            <option value="" selected>(none)</option>
+            <option value="90">90 deg</option>
+            <option value="180">180 deg</option>
+            <option value="270">270 deg</option>
+        </select>
+        <span>Flip</span>
+        <select name="flip">
+            <option value="" selected>(none)</option>
+            <option value="horizontal">horizontal</option>
+            <option value="vertical">vertical</option>
+        </select>
+        <span>border</span>
+        <select name="border">
+            <option value="" selected>(none)</option>
+            <option value="square">square</option>
+            <option value="circle">circle</option>
+        </select>
+        <span>Animation</span>
+        <select name="animation">
+            <option value="" selected>(none)</option>
+            <option value="spin">spin</option>
+            <option value="tada">tada</option>
+            <option value="flashing">flashing</option>
+            <option value="burst">burst</option>
+            <option value="fade-left">fade-left</option>
+            <option value="fade-right">fade-right</option>
+            <option value="spin-hover">spin-hover</option>
+            <option value="tada-hover">tada-hover</option>
+            <option value="flashing-hover">flashing-hover</option>
+            <option value="burst-hover">burst-hover</option>
+            <option value="fade-left-hover">fade-left-hover</option>
+            <option value="fade-right-hover">fade-right-hover</option>
+        </select>
+    </div>
+</div>
+
+<script src="/dist/boxicons.js"></script>
+<script src="./svgo.config.js"></script>
+<script src="./bower.json"></script>
+<script src="./package-lock.json"></script>
+<script src="./package.json"></script>
+<script src="./webpack.config.js"></script>
+<script type="module">
+ 
+    const $content = document.createDocumentFragment();
+    const $prototype =document.getElementById("prototype");
+    const $controls = document.getElementById("controls");
+
+    icons_r.forEach(function (iconName) {
+        const $div = document.createElement("div");
+        $div.setAttribute("class", "icon");
+        $div.innerHTML = `<div>${iconName}</div><box-icon type="regular" name="${iconName}"></box-icon>`;
+        $content.appendChild($div);
+    });
+    icons_s.forEach(function (iconName) {
+        const $div = document.createElement("div");
+        $div.setAttribute("class", "icon");
+        $div.innerHTML = `<div>${iconName}</div><box-icon type="solid" name="${iconName}"></box-icon>`;
+        $content.appendChild($div);
+    });
+    icons_l.forEach(function (iconName) {
+        const $div = document.createElement("div");
+        $div.setAttribute("class", "icon");
+        $div.innerHTML = `<div>${iconName}</div><box-icon type="logo" name="${iconName}"></box-icon>`;
+        $content.appendChild($div);
+    });
+
+    $prototype.appendChild($content);
+
+    const allIcons = $prototype.querySelectorAll("box-icon");
+    const setIconAttr = function (attrName, ev) {
+        allIcons.forEach($icon => {
+            $icon.setAttribute(attrName, ev.target.value);
+        });
+    };
+
+    $controls.querySelector("input[name='color']").addEventListener("input", setIconAttr.bind(null, "color"));
+    $controls.querySelector("input[name='size']").addEventListener("input", setIconAttr.bind(null, "size"));
+    $controls.querySelector("select[name='rotate']").addEventListener("input", setIconAttr.bind(null, "rotate"));
+    $controls.querySelector("select[name='flip']").addEventListener("input", setIconAttr.bind(null, "flip"));
+    $controls.querySelector("select[name='border']").addEventListener("input", setIconAttr.bind(null, "border"));
+    $controls.querySelector("select[name='animation']").addEventListener("input", setIconAttr.bind(null, "animation"));
+</script>
+</body>
+</html>
